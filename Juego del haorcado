@@ -1,0 +1,25 @@
+import random
+
+
+palabras = ['python', 'java', 'desarrollo',]
+psecreta = random.choice(palabras)
+cadena = "_" * len(psecreta)
+
+
+print("BIENVENIDOS AL JUEGO DEL AHORCADO")
+
+
+while True:
+    print(cadena)
+    letra = input("Ingresa una letra: ")
+
+    if letra in psecreta:
+        for i in range(len(psecreta)):
+            if psecreta[i] == letra:
+                cadena = cadena[:i] + letra + cadena[i+1:] 
+    else:
+        print(f"La letra '{letra}' no está en la palabra secreta.")
+    
+    if cadena == psecreta:
+        print(f"¡Felicidades, ganaste! La palabra es: {psecreta}")
+        break 
