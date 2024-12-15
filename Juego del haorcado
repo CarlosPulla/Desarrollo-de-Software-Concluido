@@ -1,25 +1,100 @@
 import random
 
+def dibujar_ahorcado(intentos):
+    figuras = [
+        """
+           +---+
+               |
+               |
+               |
+              ===
+        """,
+        """
+           +---+
+           O   |
+               |
+               |
+              ===
+        """,
+        """
+           +---+
+           O   |
+           |   |
+               |
+              ===
+        """,
+        """
+           +---+
+           O   |
+          /|   |
+               |
+              ===
+        """,
+        """
+           +---+
+           O   |
+          /|\  |
+               |
+              ===
+        """,
+        """
+           +---+
+           O   |
+          /|\  |
+          /    |
+              ===
+        """,
+        """
+           +---+
+           O   |
+          /|\  |
+          / \  |
+              ===
+        """
+    ]
+    print(figuras[6 - intentos])
 
-palabras = ['python', 'java', 'desarrollo',]
-psecreta = random.choice(palabras)
-cadena = "_" * len(psecreta)
+def jugar_ahorcado():
+    palabras = ["programar", "escribir", "jugar", "python", "barberia", "comida", "eSports"]
+    palabra_secreta = random.choice(palabras)
+    letras_adivinadas = ["_" for _ in palabra_secreta]
+    intentos_restantes = 6
+    letras_intentadas = []
 
+    print("\n\u26A1 Bienvenido al juego del Ahorcado \u26A1\n")
 
-print("BIENVENIDOS AL JUEGO DEL AHORCADO")
+    while intentos_restantes > 0 and "_" in letras_adivinadas:
+        dibujar_ahorcado(intentos_restantes)
+        print("Palabra:", " ".join(letras_adivinadas))
+        print(f"Intentos restantes: {intentos_restantes}")
+        print("Letras intentadas:", ", ".join(letras_intentadas))
 
+        letra = input("\nIntroduce una letra: ").lower()
 
-while True:
-    print(cadena)
-    letra = input("Ingresa una letra: ")
+        if len(letra) != 1 or not letra.isalpha():
+            print("Por favor, introduce una letra válida.")
+            continue
 
-    if letra in psecreta:
-        for i in range(len(psecreta)):
-            if psecreta[i] == letra:
-                cadena = cadena[:i] + letra + cadena[i+1:] 
+        if letra in letras_intentadas:
+            print("Ya intentaste esa letra. Intenta con otra.")
+            continue
+
+        letras_intentadas.append(letra)
+
+        if letra in palabra_secreta:
+            print(f"¡Bien! La letra '{letra}' está en la palabra.")
+            for i, l in enumerate(palabra_secreta):
+                if l == letra:
+                    letras_adivinadas[i] = letra
+        else:
+            print(f"Lo siento, la letra '{letra}' no está en la palabra.")
+            intentos_restantes -= 1
+
+    dibujar_ahorcado(intentos_restantes)
+    if "_" not in letras_adivinadas:
+        print("\n¡Felicidades! Adivinaste la palabra:", palabra_secreta)
     else:
-        print(f"La letra '{letra}' no está en la palabra secreta.")
-    
-    if cadena == psecreta:
-        print(f"¡Felicidades, ganaste! La palabra es: {psecreta}")
-        break 
+        print("\nGame Over. La palabra era:", palabra_secreta)
+
+if __name__ == "__main__":
+    jugar_ahorcado()
